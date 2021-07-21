@@ -39,14 +39,28 @@ Airplane.prototype.land = function () {
         + It should return a string with `name` and `age`. Example: "Mary, 50"
 */
 
-function Person() {
-  
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+  this.stomach = [];
 }
 
+Person.prototype.eat = function(edible) {
+  if (this.stomach.length < 10) {
+    this.stomach.push(edible);
+  }
+}
 
+Person.prototype.poop = function() {
+  this.stomach = [];
+}
 
+Person.prototype.toString = function() {
+  return `${this.name}, ${this.age}`;
+}
 
-
+const kevin = new Person('Kevin', 26);
+const leo = new Person('Leo', 18);
 
 
 /*
@@ -63,10 +77,29 @@ function Person() {
         + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
 */
 
-function Car() {
-  
+function Car(model, milesPerGallon) {
+  this.model = model;
+  this.milesPerGallon = milesPerGallon;
+  this.tank = 0;
+  this.odometer = 0;
 }
 
+Car.prototype.fill = function(gallons) {
+  this.tank += gallons;
+}
+
+Car.prototype.drive = function(distance) {
+  if (this.tank <= distance/this.milesPerGallon) {
+    this.odometer += this.tank * this.milesPerGallon;
+    this.tank = 0;
+    console.log(`I ran out of fuel at ${this.odometer} miles!`)
+  } else {
+    this.odometer += distance;
+    this.tank -= distance/this.milesPerGallon;
+  }
+}
+
+const toyota = new Car('corolla', 35);
 
 /*
   TASK 3
@@ -75,18 +108,25 @@ function Car() {
     - Besides the methods on Person.prototype, babies have the ability to `.play()`:
         + Should return a string "Playing with x", x being the favorite toy.
 */
-function Baby() {
- 
+function Baby(name, age, toy) {
+  Person.call(this, name, age);
+  this.favoriteToy = toy;
+}
+
+Baby.prototype = Object.create(Person.prototype);
+Baby.prototype.play = function() {
+  return `Playing with ${this.favoriteToy}`;
 }
 
 
 /* 
   TASK 4
   In your own words explain the four principles for the "this" keyword below:
-  1. 
-  2. 
-  3. 
-  4. 
+  1. In a function, this refers to the global object
+  2. If none of the other rules apply 'this' defaults to the window, 
+     the global object in node, or it will return undefined in strict mode 
+  3. When the function is invoked look to the left of the dot that's what 'this' refers to 
+  4. Whenever a preceding dot calls a function, the object before the dot is this.
 */
 
 
