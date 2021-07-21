@@ -59,9 +59,6 @@ Person.prototype.toString = function() {
   return `${this.name}, ${this.age}`;
 }
 
-const kevin = new Person('Kevin', 26);
-const leo = new Person('Leo', 18);
-
 
 /*
   TASK 2
